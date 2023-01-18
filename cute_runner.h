@@ -75,10 +75,9 @@ namespace cute {
 
 			bool should_run = false;
 			for (auto arg : args){
-				std::string search_string = std::string(".*") +arg+ std::string(".*");
-				const std::regex regex_search(search_string);
+				const std::regex search_arg(arg);
 				for (auto test : s){
-					if(std::regex_match(test.name(), regex_search)){
+					if(std::regex_search(test.name(), search_arg)){
 						std::transform(args.begin(), args.end(), std::inserter(match,match.begin()),prefixCutter(test.name()));
 						should_run=true;
 					}
@@ -95,9 +94,8 @@ namespace cute {
 		 bool shouldRun(const std::string & name) const
 	    {	bool should_run = false;
 			for (auto arg : args_){
-				std::string search_string = std::string(".*") +arg+ std::string(".*");
-				const std::regex regex_search(search_string);
-				if(std::regex_match(name, regex_search)){
+				const std::regex search_arg(arg);
+				if(std::regex_search(name, search_arg)){
 					should_run=true;
 					break;
 				}
