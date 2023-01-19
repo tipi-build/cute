@@ -62,7 +62,7 @@ namespace cute {
 	    std::set<std::string> match;
 		std::vector<std::string> args_{};
 
-		bool is_arg_in_test(std::string const& test_name,std::string const &arg)
+		const bool is_arg_in_test(std::string const& test_name,std::string const &arg)
 		{
 			const std::regex search_arg(arg);
 			return std::regex_search(test_name, search_arg);
