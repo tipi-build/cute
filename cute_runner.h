@@ -61,12 +61,6 @@ namespace cute {
 	{
 	    std::set<std::string> match;
 		std::vector<std::string> args_{};
-
-		bool is_arg_in_test(std::string const& test_name,std::string const &arg)
-		{
-			const std::regex search_arg(arg);
-			return std::regex_search(test_name, search_arg);
-		}
 	    bool shouldRunSuite(std::string const &info, std::vector<std::string> const &args,cute::suite const &s)
 	    {	
 			args_ = args;
@@ -81,8 +75,9 @@ namespace cute {
 
 			bool should_run = false;
 			for (auto arg : args){
+				const std::regex search_arg(arg);
 				for (auto test : s){
-					if(is_arg_in_test(test.name(),arg)){
+					if(std::regex_search(test.name(), search_arg)){
 						std::transform(args.begin(), args.end(), std::inserter(match,match.begin()),prefixCutter(test.name()));
 						should_run=true;
 					}
@@ -99,12 +94,14 @@ namespace cute {
 		 bool shouldRun(const std::string & name) const
 	    {	bool should_run = false;
 			for (auto arg : args_){
-				if(is_arg_in_test(name,arg)){
+				const std::regex search_arg(arg);
+				if(std::regex_search(name, search_arg)){
 					should_run=true;
 					break;
 				}
 			
 			}
+
 	        return match.empty() || should_run || match.count(name) ;
 	    }
 	};
